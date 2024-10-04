@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-rows-3 md:h-screen overflow-hidden gap-2">
       <div className="relative overflow-hidden group cursor-pointer">
-        <Link href="/characters">
+        <Link href="/character">
           <Image
             src={charactersLogo}
             alt="logo"
@@ -23,7 +23,7 @@ export default function Home() {
       </div>
 
       <div className="relative overflow-hidden group cursor-pointer">
-        <Link href="/episodes">
+        <Link href="/episode">
           <Image
             src={episodesLogo}
             alt="logo"
@@ -38,7 +38,7 @@ export default function Home() {
       </div>
 
       <div className="relative overflow-hidden group cursor-pointer">
-        <Link href="/locations">
+        <Link href="/location">
           <Image
             src={locationsLogo}
             alt="logo"
