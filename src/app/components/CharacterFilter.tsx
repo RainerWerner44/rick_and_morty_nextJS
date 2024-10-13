@@ -1,17 +1,13 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CharacterFilter() {
   const router = useRouter();
-
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState("");
   const [species, setSpecies] = useState("");
   const [gender, setGender] = useState("");
-
-
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -24,9 +20,6 @@ export default function CharacterFilter() {
     router.push(`?${params.toString()}`);
 
   }, [searchQuery, species, status, gender, router]);
-
-  console.log(searchQuery);
-  
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -55,7 +48,7 @@ export default function CharacterFilter() {
           </label>
           <select
             id="status"
-            className="border rounded p-2 w-full h-12"
+            className="border rounded p-2 w-full h-12 cursor-pointer"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
@@ -72,7 +65,7 @@ export default function CharacterFilter() {
           </label>
           <select
             id="species"
-            className="border rounded p-2 w-full h-12"
+            className="border rounded p-2 w-full h-12 cursor-pointer"
             value={species}
             onChange={(e) => setSpecies(e.target.value)}
           >
@@ -96,7 +89,7 @@ export default function CharacterFilter() {
           </label>
           <select
             id="gender"
-            className="border rounded p-2 w-full h-12"
+            className="border rounded p-2 w-full h-12 cursor-pointer"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
           >

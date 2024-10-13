@@ -1,5 +1,5 @@
+import BackButton from "@/app/components/BackButton";
 import Image from "next/image";
-import Link from "next/link";
 import { FC } from "react";
 
 interface Params {
@@ -14,25 +14,15 @@ const CharactersId: FC<Params> = async ({ params }) => {
   const data = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
   const character = await data.json();
 
-  console.log(id);
-
   return (
-    <div className="flex flex-col items-center justify-start p-6 bg-gray-100 min-h-screen">
+    <div className="p-6">
       <div className="container mx-auto flex flex-col lg:flex-row gap-8 justify-center items-start">
         <div className="w-full lg:w-1/3 bg-white p-6 rounded shadow-md">
-          
-          <Link href="/character">
-            <button
-              type="button"
-              className="mb-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
-            >
-              Back
-            </button>
-          </Link>
+          <BackButton />
 
-          <h1 className="text-3xl font-bold mb-4 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-center">
             {character.name}
-          </h1>
+          </h2>
           <Image
             src={character.image}
             alt={character.name}
@@ -63,15 +53,14 @@ const CharactersId: FC<Params> = async ({ params }) => {
         <div className="w-full lg:w-1/3 bg-white p-6 rounded shadow-md">
           <h3 className="mt-4 font-semibold text-center">Episodes:</h3>
           <ul className="list-disc ml-5">
-            {character.episode.map((episodeUrl: string, index: number) => (
+            {character.episode.map((episodeUrl: string) => (
               <li key={episodeUrl}>
                 <a
-                  href={episodeUrl}
-                  target="_blank"
+                  href={`/episode?episodeNumber=${episodeUrl.split('episode/')[1]}`}
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  Episode {index + 1}
+                  Episode {episodeUrl.split('episode/')[1]}
                 </a>
               </li>
             ))}
