@@ -15,6 +15,7 @@ export default async function Episodes({
   searchParams: { episodeNumber: string; searchQuery: string };
 }) {
   const { episodeNumber = "", searchQuery = "" } = searchParams;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const params = new URLSearchParams({
     episodeNumber: episodeNumber.toString(),
     searchQuery: searchQuery.toString(),
