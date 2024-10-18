@@ -30,6 +30,7 @@ const CharactersId: FC<Params> = async ({ params }) => {
             height={300}
             className="w-full h-auto rounded shadow-md mb-4"
           />
+          
           <div>
             <h2 className="text-xl font-semibold mb-2">Character Details</h2>
             <p>
@@ -56,11 +57,13 @@ const CharactersId: FC<Params> = async ({ params }) => {
             {character.episode.map((episodeUrl: string) => (
               <li key={episodeUrl}>
                 <a
-                  href={`/episode?episodeNumber=${episodeUrl.split('episode/')[1]}`}
+                  href={`/episode?episodeNumber=${
+                    episodeUrl.split("episode/")[1]
+                  }`}
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  Episode {episodeUrl.split('episode/')[1]}
+                  Episode {episodeUrl.split("episode/")[1]}
                 </a>
               </li>
             ))}

@@ -56,6 +56,7 @@ export default function ListOFSearchedEpisodes({
           </li>
         ))}
       </ul>
+      
       <ul className="flex flex-col items-center mb-10">
         {additionalDataFetch &&
           additionalDataFetch?.map((e) => (

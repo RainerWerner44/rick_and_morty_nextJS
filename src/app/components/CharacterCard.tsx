@@ -15,6 +15,7 @@ export default function CharacterCard({char}: {char: Character}) {
         height={200}
         className="rounded mb-4 mt-4"
       />
+      
       <div className="text-center">
         <h3 className="text-lg font-bold">{char.name}</h3>
         <p className="text-gray-700">

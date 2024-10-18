@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Select from "react-select";
+import { genderOptions, speciesOptions, statusOptions } from "../data/selectOptions";
+
 
 export default function CharacterFilter() {
   const router = useRouter();
@@ -18,7 +21,6 @@ export default function CharacterFilter() {
     if (gender) params.set("gender", gender);
 
     router.push(`?${params.toString()}`);
-
   }, [searchQuery, species, status, gender, router]);
 
   const handleClearFilters = () => {
@@ -27,6 +29,24 @@ export default function CharacterFilter() {
     setSpecies("");
     setGender("");
     router.push("/character");
+  };
+
+  const handleStatusChange = (
+    selectedOption: { value: string; label: string } | null
+  ) => {
+    setStatus(selectedOption ? selectedOption.value : "");
+  };
+
+  const handleSpeciesChange = (
+    selectedOption: { value: string; label: string } | null
+  ) => {
+    setSpecies(selectedOption ? selectedOption.value : "");
+  };
+
+  const handleGenderChange = (
+    selectedOption: { value: string; label: string } | null
+  ) => {
+    setGender(selectedOption ? selectedOption.value : "");
   };
 
   return (
@@ -46,59 +66,70 @@ export default function CharacterFilter() {
           <label htmlFor="status" className="block mb-1">
             Status
           </label>
-          <select
+          <Select
             id="status"
-            className="border rounded p-2 w-full h-12 cursor-pointer"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select Status</option>
-            <option value="alive">Alive</option>
-            <option value="dead">Dead</option>
-            <option value="unknown">Unknown</option>
-          </select>
+            classNamePrefix="react-select"
+            options={statusOptions}
+            value={statusOptions.find((option) => option.value === status)}
+            onChange={handleStatusChange}
+            isSearchable={false}
+            placeholder="Select Status"
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                height: "48px",
+                cursor: "pointer",
+              }),
+            }}
+          />
         </div>
 
         <div className="col-span-1">
           <label htmlFor="species" className="block mb-1">
             Species
           </label>
-          <select
+          <Select
             id="species"
-            className="border rounded p-2 w-full h-12 cursor-pointer"
-            value={species}
-            onChange={(e) => setSpecies(e.target.value)}
-          >
-            <option value="">Select Species</option>
-            <option value="human">Human</option>
-            <option value="alien">Alien</option>
-            <option value="humanoid">Humanoid</option>
-            <option value="poopybutthole">Poopybutthole</option>
-            <option value="mythological">Mythological</option>
-            <option value="unknown">Unknown</option>
-            <option value="animal">Animal</option>
-            <option value="disease">Disease</option>
-            <option value="robot">Robot</option>
-            <option value="cronenberg">Cronenberg</option>
-          </select>
+            classNamePrefix="react-select"
+            options={speciesOptions}
+            value={
+              speciesOptions.find((option) => option.value === species) || null
+            }
+            onChange={handleSpeciesChange}
+            isSearchable={false}
+            placeholder="Select Species"
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                height: "48px",
+                cursor: "pointer",
+              }),
+            }}
+          />
         </div>
 
         <div className="col-span-1">
           <label htmlFor="gender" className="block mb-1">
             Gender
           </label>
-          <select
+          <Select
             id="gender"
-            className="border rounded p-2 w-full h-12 cursor-pointer"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="genderless">Genderless</option>
-            <option value="unknown">Unknown</option>
-          </select>
+            classNamePrefix="react-select"
+            options={genderOptions}
+            value={
+              genderOptions.find((option) => option.value === gender) || null
+            } 
+            onChange={handleGenderChange}
+            isSearchable={false}
+            placeholder="Select Gender"
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                height: "48px", 
+                cursor: "pointer",
+              }),
+            }}
+          />
         </div>
 
         <div className="col-span-1 flex items-end h-full">
