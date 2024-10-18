@@ -1,8 +1,9 @@
 "use client";
 import { Episode } from "@/types/Episode";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getDataNumbersArray } from "../utils/getDataNumbersArray";
+import Select from "react-select";
 
 const episodesTotalCount = 51;
 
@@ -13,28 +14,28 @@ export default function EpisodeFilter({
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [selectedEpisode, setSelectedEpisode] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");  
+  const [selectedEpisode, setSelectedEpisode] = useState("1");
+  const [searchQuery, setSearchQuery] = useState("");
 
-   useEffect(() => {
+  useEffect(() => {
     const episodeFromURL = searchParams.get("episodeNumber");
     const queryFromURL = searchParams.get("searchQuery");
 
     if (episodeFromURL) {
       setSelectedEpisode(episodeFromURL);
     } else {
-      setSelectedEpisode(""); 
+      setSelectedEpisode("");
     }
 
     if (queryFromURL) {
       setSearchQuery(queryFromURL);
     } else {
-      setSearchQuery(""); 
+      setSearchQuery("");
     }
-  }, [searchParams]); 
+  }, [searchParams]);
 
   useEffect(() => {
-      const params = new URLSearchParams();
+    const params = new URLSearchParams();
     if (selectedEpisode) {
       params.set("episodeNumber", selectedEpisode);
     }
@@ -44,13 +45,19 @@ export default function EpisodeFilter({
     }
 
     router.push(`?${params.toString()}`);
-
   }, [selectedEpisode, router, searchQuery]);
 
   const episodeNumberArray = getDataNumbersArray(episodesTotalCount);
 
-  const handleEpisodeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedEpisode(event.target.value);
+  const episodeOptions = episodeNumberArray.map((num) => ({
+    value: num.toString(),
+    label: `Episode ${num}`,
+  }));
+
+  const handleEpisodeChange = (
+    selectedOption: { value: string; label: string } | null
+  ) => {
+    setSelectedEpisode(selectedOption ? selectedOption.value : "");
     setSearchQuery("");
   };
 
@@ -66,34 +73,39 @@ export default function EpisodeFilter({
           onChange={(event) => setSearchQuery(event.target.value)}
         />
         <button
-          className="w-16 bg-gray-300 text-black h-12 border-0 hover:bg-gray-100"
+          className="w-16 bg-gray-300 text-black h-12 border-0 hover:bg-gray-100 cursor-pointer"
           onClick={() => {
             setSearchQuery("");
           }}
           disabled={!Boolean(searchQuery.length)}
         >
           X
-        </button>  
+        </button>
       </div>
 
       <div className="container">
-        <label htmlFor="status" className="block mb-1 pl-2">
+        <label htmlFor="episode" className="block mb-1 pl-2">
           Episode:
         </label>
-        <select
+        <Select
           id="episode"
-          className="border rounded p-2 w-full h-12"
+          classNamePrefix="react-select"
+          options={episodeOptions}
+          value={
+            episodeOptions.find((option) => option.value === selectedEpisode) ||
+            null
+          }
           onChange={handleEpisodeChange}
-          value={selectedEpisode}
-        >
-          {episodeNumberArray.map((num) => {
-            return (
-              <option value={num} key={num}>
-                Episode {num}
-              </option>
-            );
-          })}
-        </select>
+          isSearchable={false}
+          placeholder="Select Episode"
+          styles={{
+            control: (baseStyles) => ({
+              ...baseStyles,
+              height: "48px",
+              cursor: "pointer",
+            }),
+          }}
+        />
       </div>
       
       <div className="container bg-gray-100 px-2 pt-4 pb-4">
